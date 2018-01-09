@@ -72,7 +72,7 @@ public class Utils {
 
             @Override
             protected void onPostExecute(List<ImagePosColor> posColors) {
-                if (posColors != null) {
+                if (posColors != null && posColors.size()>0) {
                     android.util.Log.d("www", "integer=== " + posColors);
                     view.setStartPoints(posColors);
                 }

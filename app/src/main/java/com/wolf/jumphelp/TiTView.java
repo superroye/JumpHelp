@@ -23,8 +23,8 @@ public class TiTView extends View implements View.OnTouchListener {
 
     GestureDetector mGestureDetector;
     boolean isStartAnim;
-    long cms, jumpMs;
-    float x, y;
+    ImagePosColor currentPos, targetPos;
+
     int action;
     ClickCallback mClickCallback;
     int screenWidth;
@@ -40,6 +40,8 @@ public class TiTView extends View implements View.OnTouchListener {
         setBackgroundColor(0x00000000);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         screenWidth = displayMetrics.widthPixels;
+        currentPos = new ImagePosColor(0, 0, 0);
+        targetPos = new ImagePosColor(0, 0, 0);
     }
 
     @Override
@@ -47,13 +49,12 @@ public class TiTView extends View implements View.OnTouchListener {
         action = event.getAction();
         if (event.getAction() == MotionEvent.ACTION_UP) {
             android.util.Log.d("www", "ACTION_UP");
-            mClickCallback.doJump(jumpMs);
-            //setClick(0, 0, 0);
+            setClick(event.getX(), event.getY());
+            mClickCallback.screencap();
         } else if (event.getAction() == MotionEvent.ACTION_POINTER_DOWN) {
             android.util.Log.d("www", "ACTION_POINTER_DOWN");
         } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
             android.util.Log.d("www", "ACTION_DOWN " + event.getX() + " " + event.getY());
-            //setClick(System.currentTimeMillis(), event.getX(), event.getY());
         }
 
         return true;
@@ -63,61 +64,21 @@ public class TiTView extends View implements View.OnTouchListener {
         this.mClickCallback = clickCallback;
     }
 
-    public void setAnim(boolean isStartAnim) {
-        this.isStartAnim = isStartAnim;
-    }
 
     public void setStartPoints(List<ImagePosColor> points) {
         mPoints = points;
-        android.util.Log.d("www", mPoints.toString());
         invalidate();
     }
 
-    void setClick(long cms, float x, float y) {
-        this.cms = cms;
-        this.x = x;
-        this.y = y;
-        isStartAnim = x > 0;
-        invalidate();
+    void setClick(float x, float y) {
+        targetPos.x = (int) x;
+        targetPos.y = (int) y;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-//        if (MotionEvent.ACTION_UP == action && jumpMs > 0 && jumpMs < 10_000) {
-//            mClickCallback.doJump(jumpMs);
-//            Paint paint = new Paint();
-//            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-//            canvas.drawPaint(paint);
-//            paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.ADD.SRC));
-//            return;
-//        }
-//
-//        long jumpMs1 = System.currentTimeMillis() - cms;
-//        jumpMs = jumpMs1;
-//        float radius = (jumpMs1) / 1.35f;
-//
-//        if (cms == 0) {
-//            radius = 0;
-//            jumpMs = 0;
-//        }
-//
-//        Paint paint = new Paint();
-//        paint.setColor(0xffFF5E4D);
-//        android.util.Log.d("www", " x y r " + x + " " + y + " " + radius);
-//
-//        //canvas.save();
-//
-//        canvas.drawCircle(x, y, radius, paint);
-//
-//        //canvas.restore();
-//
-//        if (isStartAnim) {
-//            invalidate();
-//        }
         if (mPoints != null) {
-            android.util.Log.d("www", "mPoints.size=====" + mPoints.size());
             Paint paint = new Paint();
             paint.setColor(0xffFF5E4D);
             paint.setStrokeWidth((float) 20.0);
@@ -131,8 +92,13 @@ public class TiTView extends View implements View.OnTouchListener {
                 }
             }
 
-            canvas.drawPoint(maxyx, maxy-getTop(), paint);
-            android.util.Log.d("www", String.format("%d %d %d", maxyx, maxy, getTop()));
+            canvas.drawPoint(maxyx, maxy - getTop(), paint);
+
+            double _x = Math.abs(maxyx - targetPos.x);
+            double _y = Math.abs(maxy - getTop() - targetPos.y);
+            mClickCallback.doJump((int) (Math.sqrt(_x * _x + _y * _y) * 1.35));
+
+            android.util.Log.d("www", String.format("%s %s %s %s", String.valueOf(maxyx),String.valueOf(maxy),String.valueOf(targetPos.x),String.valueOf(targetPos.y)));
         }
 
     }

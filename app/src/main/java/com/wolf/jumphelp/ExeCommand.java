@@ -104,24 +104,6 @@ public class ExeCommand {
 
             os.close();
             //如果等待时间设置为非正，就不开启超时关闭功能
-            if (maxTime > 0) {
-                //超时就关闭进程
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(maxTime);
-                        } catch (Exception e) {
-                        }
-                        try {
-                            int ret = process.exitValue();
-                        } catch (IllegalThreadStateException e) {
-                            Log.i("auto", "take maxTime,forced to destroy process");
-                            process.destroy();
-                        }
-                    }
-                }).start();
-            }
 
             //开一个线程来处理input流
             final Thread t1 = new Thread(new Runnable() {
@@ -184,6 +166,13 @@ public class ExeCommand {
                         t1.join();
                         t2.join();
                         process.waitFor();
+
+                        try {
+                            int ret = process.exitValue();
+                        } catch (IllegalThreadStateException e) {
+                            Log.i("auto", "take maxTime,forced to destroy process");
+                            process.destroy();
+                        }
                     } catch (Throwable e) {
                         Log.i("auto", "read Throwable exception:" + e.toString());
                     } finally {

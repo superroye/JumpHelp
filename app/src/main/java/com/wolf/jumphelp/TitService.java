@@ -70,18 +70,24 @@ public class TitService extends Service {
         tiTView.setClickCallback(new ClickCallback() {
             @Override
             public void doJump(final long jumpMs) {
+                ExeCommand exeCommand = new ExeCommand(false);
+                String command = String.format("input swipe %d %d %d %d %d", 200, jumpClickY, 200, jumpClickY, jumpMs);
+                android.util.Log.d("www", "command : " + command);
+
+                exeCommand.run(command, 4000);
+            }
+
+            @Override
+            public void screencap() {
                 new AsyncTask<String, Integer, Bitmap>() {
 
                     @Override
                     protected Bitmap doInBackground(String... strings) {
                         ScreenCommand exeCommand = new ScreenCommand(false);
-                        String command = String.format("input swipe %d %d %d %d %d", 200, jumpClickY, 200, jumpClickY, jumpMs);
-                        android.util.Log.d("www", "command : " + command);
 
-                        String filePath = getExternalCacheDir().getAbsolutePath() + "/screen.png";
-                        //new File(filePath).delete();
-                       // command = "screencap -p " + filePath;
-                        command="screencap -p";
+                        String command = "screencap -p";
+
+                        android.util.Log.d("www", "command : " + command);
                         exeCommand.run(command, 4000);
 
                         return exeCommand.bitmap;
@@ -93,7 +99,6 @@ public class TitService extends Service {
                         Utils.checkImageGRB(bitmap, tiTView);
                     }
                 }.execute("");
-
             }
         });
         expandTv = mView.findViewById(R.id.expandTv);
@@ -109,7 +114,7 @@ public class TitService extends Service {
 
     void setMini() {
         if (isMaxScreen) {
-            mWindowLayoutParams.height = 100;
+            mWindowLayoutParams.height = 200;
             expandTv.setText("跳一跳辅助 点击展开");
         } else {
             mWindowLayoutParams.height = maxScreenHeight;
