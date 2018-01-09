@@ -90,7 +90,7 @@ public class TitService extends Service {
 
     void setMini() {
         if (isMaxScreen) {
-            mWindowLayoutParams.height = 100;
+            mWindowLayoutParams.height = 200;
             expandTv.setText("跳一跳辅助 点击展开");
         } else {
             mWindowLayoutParams.height = maxScreenHeight;

@@ -13,4 +13,8 @@ public class ImagePosColor {
         this.y = y;
         this.color = color;
     }
+
+    public ImagePosColor() {
+
+    }
 }

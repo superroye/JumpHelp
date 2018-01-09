@@ -16,7 +16,7 @@ public class TiTView extends View {
     int action;
     ClickCallback mClickCallback;
     int screenWidth;
-    ImagePosColor[] poss;
+    ImagePosColor[] poss = new ImagePosColor[]{new ImagePosColor(), new ImagePosColor()};
     int count = 0;
 
 
@@ -46,6 +46,8 @@ public class TiTView extends View {
                 int jumpMs = (int) (Math.sqrt(_x * _x + _y * _y) * 1.35);
                 mClickCallback.doJump(jumpMs);
                 count = 0;
+            } else {
+                count++;
             }
         } else if (event.getAction() == MotionEvent.ACTION_POINTER_DOWN) {
             android.util.Log.d("www", "ACTION_POINTER_DOWN");
