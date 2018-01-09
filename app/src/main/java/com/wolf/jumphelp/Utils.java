@@ -74,7 +74,6 @@ public class Utils {
             protected void onPostExecute(List<ImagePosColor> posColors) {
                 if (posColors != null) {
                     android.util.Log.d("www", "integer=== " + posColors);
-                    view.setStartPoints(posColors);
                 }
 
             }

@@ -70,30 +70,11 @@ public class TitService extends Service {
         tiTView.setClickCallback(new ClickCallback() {
             @Override
             public void doJump(final long jumpMs) {
-                new AsyncTask<String, Integer, Bitmap>() {
+                ExeCommand exeCommand = new ExeCommand(false);
+                String command = String.format("input swipe %d %d %d %d %d", 200, jumpClickY, 200, jumpClickY, jumpMs);
+                android.util.Log.d("www", "command : " + command);
 
-                    @Override
-                    protected Bitmap doInBackground(String... strings) {
-                        ScreenCommand exeCommand = new ScreenCommand(false);
-                        String command = String.format("input swipe %d %d %d %d %d", 200, jumpClickY, 200, jumpClickY, jumpMs);
-                        android.util.Log.d("www", "command : " + command);
-
-                        String filePath = getExternalCacheDir().getAbsolutePath() + "/screen.png";
-                        //new File(filePath).delete();
-                       // command = "screencap -p " + filePath;
-                        command="screencap -p";
-                        exeCommand.run(command, 4000);
-
-                        return exeCommand.bitmap;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Bitmap bitmap) {
-                        android.util.Log.d("www", "bitmap : " + bitmap);
-                        Utils.checkImageGRB(bitmap, tiTView);
-                    }
-                }.execute("");
-
+                exeCommand.run(command, 4000);
             }
         });
         expandTv = mView.findViewById(R.id.expandTv);
