@@ -51,7 +51,8 @@ public class TitService extends Service {
 
         int densityDpi = displayMetrics.densityDpi;
         float scale = densityDpi / 160;
-        int screenHeight = displayMetrics.heightPixels;
+        final int screenHeight = displayMetrics.heightPixels;
+        final int screenWidth = displayMetrics.widthPixels;
         maxScreenHeight = screenHeight - (int) (120 * scale + 0.5f);
         mWindowLayoutParams.height = maxScreenHeight;
         mWindowLayoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -71,7 +72,9 @@ public class TitService extends Service {
             @Override
             public void doJump(final long jumpMs) {
                 ExeCommand exeCommand = new ExeCommand(false);
-                String command = String.format("input swipe %d %d %d %d %d", 200, jumpClickY, 200, jumpClickY, jumpMs);
+                int[] coors = Utils.getRandomCoordinate(new int[]{100, jumpClickY}, new int[]{screenWidth - 100, screenHeight - 10});
+                String command = String.format("input swipe %d %d %d %d %d", coors[0], coors[1], coors[0], coors[1], jumpMs);
+
                 android.util.Log.d("www", "command : " + command);
 
                 exeCommand.run(command, 4000);

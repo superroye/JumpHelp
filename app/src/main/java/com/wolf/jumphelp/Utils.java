@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.locks.Lock;
 
 import static java.lang.Runtime.getRuntime;
@@ -25,6 +26,8 @@ import static java.lang.Runtime.getRuntime;
 
 public class Utils {
 
+
+    //按图片坐标像素点识别指定图片
     public static List<ImagePosColor> getImageGRB(Bitmap bitmap1) {
         //#3A3852 (58,56,82)    #363C66 (54,60,102)
 //        File file = new File(filePath);
@@ -79,6 +82,10 @@ public class Utils {
             }
         }.execute(bitmap);
 
+    }
+
+    public static int[] getRandomCoordinate(int[] from, int[] to){
+        return new int[]{from[0]+new Random().nextInt(to[0]-from[0]),from[1]+new Random().nextInt(to[1]-from[1])};
     }
 
 }
