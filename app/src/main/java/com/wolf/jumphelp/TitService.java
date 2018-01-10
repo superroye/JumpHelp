@@ -74,8 +74,7 @@ public class TitService extends Service {
             public void doJump(final long jumpMs) {
                 ExeCommand exeCommand = new ExeCommand(false);
                 int[] coors = Utils.getRandomCoordinate(new int[]{200, jumpClickY}, new int[]{screenWidth - 200, screenHeight - 10});
-                int rans = new Random().nextInt(20);
-                String command = String.format("input swipe %d %d %d %d %d", coors[0], coors[1], coors[0] + rans, coors[1] + rans, jumpMs);
+                String command = String.format("input swipe %d %d %d %d %d", coors[0], coors[1], coors[0], coors[1], jumpMs);
 
                 android.util.Log.d("www", "command : " + command);
 
