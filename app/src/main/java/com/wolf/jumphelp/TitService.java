@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.io.File;
+import java.util.Random;
 
 /**
  * Created by Roye on 2017/11/7.
@@ -72,8 +73,9 @@ public class TitService extends Service {
             @Override
             public void doJump(final long jumpMs) {
                 ExeCommand exeCommand = new ExeCommand(false);
-                int[] coors = Utils.getRandomCoordinate(new int[]{100, jumpClickY}, new int[]{screenWidth - 100, screenHeight - 10});
-                String command = String.format("input swipe %d %d %d %d %d", coors[0], coors[1], coors[0], coors[1], jumpMs);
+                int[] coors = Utils.getRandomCoordinate(new int[]{200, jumpClickY}, new int[]{screenWidth - 200, screenHeight - 10});
+                int rans = new Random().nextInt(20);
+                String command = String.format("input swipe %d %d %d %d %d", coors[0], coors[1], coors[0] + rans, coors[1] + rans, jumpMs);
 
                 android.util.Log.d("www", "command : " + command);
 
