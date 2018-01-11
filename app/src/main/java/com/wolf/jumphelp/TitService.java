@@ -64,6 +64,7 @@ public class TitService extends Service {
         mWindowLayoutParams.y = 0;
 
         mView = LayoutInflater.from(this).inflate(R.layout.layout_tit, null);
+        //mView.setFocusableInTouchMode(true);
         wm.addView(mView, mWindowLayoutParams);
 
         isMaxScreen = true;
@@ -80,12 +81,22 @@ public class TitService extends Service {
 
                 exeCommand.run(command, 4000);
             }
+
+            @Override
+            public void onBack() {
+            }
         });
         expandTv = mView.findViewById(R.id.expandTv);
         expandTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setMini();
+            }
+        });
+        mView.findViewById(R.id.closeIv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                wm.removeViewImmediate(mView);
             }
         });
         setMini();

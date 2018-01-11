@@ -7,4 +7,6 @@ package com.wolf.jumphelp;
 public interface ClickCallback {
 
     public void doJump(long jumpMs);
+
+    public void onBack();
 }

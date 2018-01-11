@@ -1,5 +1,6 @@
 package com.wolf.jumphelp;
 
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.arch.core.executor.TaskExecutor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -87,5 +88,6 @@ public class Utils {
     public static int[] getRandomCoordinate(int[] from, int[] to){
         return new int[]{from[0]+new Random().nextInt(to[0]-from[0]),from[1]+new Random().nextInt(to[1]-from[1])};
     }
+
 
 }

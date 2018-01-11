@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 //        } else {
 //            askForPermission();
 //        }
+
         askForPermission();
 
     }

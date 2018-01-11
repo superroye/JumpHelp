@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -44,7 +45,9 @@ public class TiTView extends View {
                 double _x = Math.abs(poss[0].x - poss[1].x);
                 double _y = Math.abs(poss[0].y - poss[1].y);
                 int jumpMs = (int) (Math.sqrt(_x * _x + _y * _y) * 1.35);
-                mClickCallback.doJump(jumpMs);
+                if (mClickCallback != null) {
+                    mClickCallback.doJump(jumpMs);
+                }
                 count = 0;
             } else {
                 count++;
@@ -61,4 +64,5 @@ public class TiTView extends View {
     public void setClickCallback(ClickCallback clickCallback) {
         this.mClickCallback = clickCallback;
     }
+
 }
